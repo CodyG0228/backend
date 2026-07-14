@@ -2,9 +2,11 @@
 
 
 const express = require("express")
-const app = express()
-const router = express.Router()
+var cors = require('cors')
 
+const app = express()
+app.use(cors())
+const router = express.Router()
 
 //app.listen(3000,function(){
     //console.log("Listening on port 4000")
