@@ -9,6 +9,7 @@ const app = express()
 app.use(cors())
 
 app.use(express.json());
+app.use(bodyParser.json());
 const router = express.Router()
 
 router.get("/songs", async(req,res) =>{
