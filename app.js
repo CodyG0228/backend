@@ -9,7 +9,7 @@ const app = express()
 app.use(cors())
 
 app.use(express.json());
-app.use(bodyParser.json());
+
 const router = express.Router()
 
 router.get("/songs", async(req,res) =>{
@@ -69,8 +69,7 @@ router.post("/songs", async(req,res) =>{
 // })
 
 app.use("/api", router)
-app.listen(3000)
-
+app.listen(process.env.PORT || 3000) //for render and local
 //app.get("/hello", function(req,res){
     //res.send("<h1>Hello Express</h1>")
 //})
