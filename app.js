@@ -12,45 +12,37 @@ app.use(cors())
 app.use(express.json());
 
 const router = express.Router()
-const secret = "mysecretkey"
+const secret = process.env.JWT_SECRET || "mysecretkey";
 router.get("/songs", authMiddleware, async(req,res) =>{
-   router.post("/songs", authMiddleware, async(req,res) =>{
-      try{
-         const songs = await Song.find({})
-         res.send(songs)
-         console.log(songs)
-      }
-      catch (err){
-         console.log(err)
-      }
-   })
-
-})
-
-router.post("/songs", async(req,res) =>{
    try{
-      const song = await new Song(req.body)
-      await song.save()
-      res.status(201).json(song)
-      console.log(song)
+      const songs = await Song.find({})
+      res.send(songs)
+      console.log(songs)
    }
-   catch(err){
-      res.status(400).send(err)
-
+   catch (err){
+      console.log(err)
    }
-      
-   
 })
+
+router.post("/songs", authMiddleware, async (req, res) => {
+  try {
+    const song = new Song(req.body);
+    await song.save();
+    res.status(201).json(song);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
 
 router.post("/register", async (req, res) => {
-    try {
-        const user = new User(req.body)
-        await user.save()
-        res.status(201).json(user)
-    } catch (err) {
-        res.status(400).send(err)
-    }
-})
+  try {
+    const user = new User(req.body);
+    await user.save();
+    res.status(201).json({ username: user.username });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
 
 router.post("/login", async (req, res) => {
     try {
